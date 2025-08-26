@@ -1,0 +1,122 @@
+{% extends "dlogin.html"%}
+{% block paragraph %}
+{% endblock paragraph %}
+{%block content%}
+{%endblock content%}
+{%block body%}
+
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        form {
+            background-color: #fff;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p.error {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .links {
+            text-align: center;
+        }
+        .links a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+    </head>
+    <!--
+   OLD LOGIN FORM
+<div class="login-container">
+    <div id="doctor-login" class="tab-content active">
+        <h2>Receptionist Login</h2>
+        <form action="{%url 'rhome'%}" method="post">
+            {%csrf_token%}
+            {%if error%}
+            <p style="color:red;">{{error}}</p>
+            {%endif%}
+            <label for="rUsername">Username:</label>
+            <input type="text" id="rUsername" name="rUsername" required>
+            <br>
+
+            <label for="rPassword">Password:</label>
+            <input type="password" id="rPassword" name="rPassword" required>
+            <br>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <br>
+            <a href="/passreset">Forget Password? </a>
+            <br>
+            <a href="/Rregister">Not a User, Register here! </a>
+            
+        </form>
+    </div>
+
+    
+</div> -->
+<br><br><br><br><br><br>
+
+<div class="login-container">
+    <div id="doctor-login" class="tab-content active">
+        <form action="{%url 'rhome'%}" method="post">
+    {% csrf_token %}
+    
+    <h2>Receptionist Login</h2>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <label for="rUsername">Email:</label>
+    <input type="email" id="rUsername" name="rUsername" required>
+
+    <label for="rPassword">Password:</label>
+    <input type="password" id="rPassword" name="rPassword" required>
+
+    <button type="submit">Login</button>
+<br><br>
+    <div class="links">
+        <a href="#">Forgot Password?</a><br><br>
+        <a href="/Rregister">Not a User, Register here! </a>
+    </div>
+</form>
+
+
+{%endblock body%}

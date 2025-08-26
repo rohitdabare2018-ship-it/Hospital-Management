@@ -1,0 +1,43 @@
+<!-- templates/your_app/your_template.html -->
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+   
+    <div id="searchResults">
+        <div>
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchRecords()">Search</button>
+        </div>
+        {% if results %}
+            {% for record in results %}
+                <div>
+                    <!-- Display information about each record -->
+                    <b>Patient ID:{{record.patient_id}}</b> <p><b>Name:{{ record.name }}</b></p><p>AGE:{{ record.age }}</p><p>Address:{{ record.address }}</p>
+                    <!-- Add more fields as needed -->
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No results found</p>
+        {% endif %}
+    </div>
+</body>
+<script>
+    function searchRecords() {
+        console.log("Search function called");
+        var query = $('#searchInput').val();
+        console.log("Query: " + query);
+
+        // Implement AJAX call to Django view
+        $.ajax({
+            type: 'GET',
+            url: '/search/?query=' + query,
+            success: function (data) {
+                $('#searchResults').html(data);
+                console.log("Query inside success function: " + query);
+            }
+        });
+    }
+</script>
+</html>

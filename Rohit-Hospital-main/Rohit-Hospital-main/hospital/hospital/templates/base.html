@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rokade Hospital</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-brand,
+        .navbar-nav a {
+            color: #ffffff !important;
+        }
+
+        .navbar-nav a:hover {
+            color: #ffc107 !important;
+        }
+
+        .form-control {
+            width: 300px;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .form-control {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+        body {
+            background-image: url('/static/hospital img.jpg'); /* Replace 'path/to/your/image.jpg' with the path to your image */
+            background-size: cover; /* Cover the entire background */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+        }
+        #s
+    </style>
+    {%block head%}{%endblock head%}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="base">Rokade Hospital</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!--<li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Home</a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link" href="/dlogin">I'm Doctor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="rlogin" >I'm Reciptionist</a>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+</nav>
+
+{% block paragraph %}
+<br><br><br><br><br><br>
+<div class="container">
+    <h1>Welcome to Rokade Hospital !</h1><b>
+    <p>At Our Hospital, we are committed to providing exceptional healthcare services with compassion, expertise, and innovation. With state-of-the-art facilities and a team of dedicated healthcare professionals, we strive to deliver comprehensive medical care tailored to the unique needs of each patient.</p>
+
+    <p>Our hospital offers a wide range of specialized services, including advanced diagnostic imaging, surgical procedures, maternity care, pediatric services, and specialized clinics for various medical conditions. From routine check-ups to complex surgeries, our team is equipped to handle all aspects of your healthcare journey.</p>
+
+    <p>We understand that navigating the healthcare system can be overwhelming, which is why we prioritize patient-centered care and strive to create a supportive and welcoming environment for all our patients and their families. Whether you're visiting us for a routine appointment or seeking treatment for a serious illness, you can trust that you're in good hands at Our Hospital.</p>
+
+    <p>In addition to our medical services, we also offer various amenities and facilities to enhance your comfort and convenience during your stay. From comfortable patient rooms to on-site cafes and ample parking, we aim to make your experience with us as seamless and stress-free as possible.</p>
+
+    <p>At Our Hospital, your health and well-being are our top priorities. We are here to support you at every step of your healthcare journey and to ensure that you receive the highest quality care possible. Thank you for choosing Our Hospital for your healthcare needs.</p></b>
+</div>
+{% endblock paragraph %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+{%block body%}
+
+{%block content%}
+
+    
+{%endblock content%} 
+{%endblock body%}
+</body>
+</html>

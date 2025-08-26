@@ -1,0 +1,355 @@
+    <!-- patient_registration.html -->
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <style>
+            .navbar {
+                background-color: #343a40;
+                padding: 20px 30px;
+            }
+    
+            .navbar-brand{
+                color:white;
+                font-size: 25px;
+            }
+            .navbar-nav a {  
+                color: #ffffff !important;
+                font-size: 20px; /* Font size */
+                font-family: sans-serif;
+            }
+    
+            .navbar-nav a:hover {
+                color: #ffc107 !important;
+            }
+            .rname{
+                float:right;
+                color:white;
+                font-size: 20px;
+                padding: 9px 15px;
+
+
+            }
+            #newPatientButton {
+                background-color: #007bff; /* Button color */
+                color: #fff; /* Text color */
+                padding: 5px 10px; /* Padding around the text */
+                font-size: 16px; /* Font size */
+                font-family: sans-serif; 
+                border: none; /* Remove border */
+                cursor: pointer; /* Add pointer cursor on hover */
+                border-radius: 10px; /* Optional: Add border-radius for rounded corners */
+            }
+            #form {
+                background-color: #fff;
+                max-width: 400px;
+                margin: 0 auto;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            #newPatientButton:hover {
+                background-color: #0056b3; /* Change color on hover */
+            }
+            h2 {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            input, select {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 16px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            #register_submit {
+                background-color: #4caf50;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            #register_cancel {
+                background-color: #4caf50;
+                color: #fff;
+                padding: 10px 25px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            #line{
+                padding:10px 13px
+            }
+        
+            #searchInput {
+                width: 200px;
+                height:50px;
+                padding: 8px 16px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-right: 5px;
+            }
+            
+            #searchButton {
+                background-color: #007bff;
+                color: #fff;
+                padding: 10px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            #searchButton:hover {
+                background-color: #0056b3;
+            }
+            #searchInput {
+                width: 300px;
+                height:50px;
+                padding: 30px 30px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-right: 5px;
+                margin-left: 20px;
+                background-color: #000; /* Black background color */
+                color: #fff;
+            }
+            #searchButton {
+                background-color: #007bff;
+                color: #fff;
+                padding: 15px 16px;
+                margin-right: 5px;
+                margin-left: 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            #searchButton:hover {
+                background-color: #0056b3;
+            }
+
+            body {
+                background-color: #3CB37
+            }
+            #searchInput::placeholder {
+                color: #ccc; /* Light gray placeholder text color */
+            }
+            
+            
+        </style>    
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <a class="navbar-brand me-3" href="#">Rokade Hospital</a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/rhome">Home</a></li> 
+                    </ul>
+                    <ul class="navbar-nav ml-auto pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/rlogin">Log Out</a>
+                        </li>
+                        <li class="rname">
+                            
+                            <b>Welcome,{{rname}}</b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br>
+        
+              <!--<input class="form-control me-2" type="search" placeholder="Patient ID" aria-label="Search"> -->
+              
+              
+              
+              
+              <div class="d-flex align-items-center">
+
+              <input class="form-control me-2" type="text" placeholder="Patient ID" id="searchInput" name="query" aria-label="Search">
+              <button class="btn btn-outline-success" id="searchButton" onclick="searchRecords()">Search</button>
+              
+            </div>
+
+                    
+                   
+            
+            
+                   
+           
+          
+        
+
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+<br>
+        <div >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="newPatientButton" >New Patient</button>
+        </div>
+        <!-- The form -->
+        <div id="myForm">
+            
+            <form method="post" action="{% url 'rhome' %}" id="form">
+                {% csrf_token %}
+                <h2>Please Fill Details of Patient</h2>
+               <div id="line">__________________________________________________</div>
+              
+                <label for="name">Name:</label>
+                <input type="text" name="name" required>
+                <br>
+                <label for="age">Age:</label>
+                <input type="text" name="age" required>
+                <br>
+                <label for="weight">Weight:</label>
+                <input type="text" name="weight" required>
+                <br>
+                <label for="gender" style="display: flex; align-items: center;">Gender:</label>
+                <select name="gender" required>
+                    <option value="" disabledselected> Select Gender </option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <br>
+                <label for="admission_date">Admission Date:</label>
+                <input type="date" name="admission_date" required>
+                <br>
+                <label for="time">Time:</label>
+                <input type="time" name="time"  required>
+                <br>
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone"  required>
+                <br>
+                <label for="Address">Address:</label>
+        <input type="text" id="address" name="address" required>
+                <br>
+                
+                <input id="register_submit" type="submit" name="Register" value="Register"> 
+                <input id="register_cancel" type="button" value="Cancel" onclick="cancelRegistration()">
+            </form>
+        </div>
+        
+          <!-- search result-->
+          
+        <div id="searchResults">
+            {% if results %}
+            {% for record in results %}
+            <div>
+                
+              <!--  <p><b>Patient ID:{{record.patient_id}}</b></p><p><b>{{ record.name }}</b></p><p>{{ record.email }}</p><p>{{ record.address }}</p>-->
+                <p>
+               
+            </div>
+            {% endfor %}
+            
+            {% endif %}
+        </div> 
+       
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var form = document.getElementById('myForm');
+                form.style.display = 'none';
+
+                function toggleForm() {
+                    form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+                }
+
+                var button = document.getElementById('newPatientButton');
+                if (button) {
+                    button.addEventListener('click', toggleForm);
+                }
+            });
+            function cancelRegistration() {
+            
+                window.location.href = "/rhome";
+            }
+            function searchRecords() {
+                console.log("Search function called");
+                var query = encodeURIComponent($('#searchInput').val());
+                console.log("Query: " + query);
+            
+                // Implement AJAX call to Django view
+                $.ajax({
+                    type: 'GET',
+                    url: '/rhome/?query=' + query,
+                    success: function (data) {
+                        console.log("Data received:", data);
+            
+                        // Clear previous results
+                        $('#searchResults').html("");
+            
+                        if (data.results_list && data.results_list.length > 0) {
+                            // Iterate through the data and append it to the searchResults div
+                            for (var i = 0; i < data.results_list.length; i++) {
+                                var result = data.results_list[i];
+                                $('#searchResults').append('<br>' +
+    '<div style="outline: 1px solid #333; padding: 10px;">' +
+        '<table style="border-collapse: collapse; width: 100%; border: 1px solid #333;">' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Patient ID:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.patient_id + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Name:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.name + '</td>' +
+                '<td><b>Age:</b></td><td style="border-left: 1px solid #333;">' + result.age + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Gender:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.gender + '</td>' +
+                '<td><b>Weight:</b></td><td style="border-left: 1px solid #333;">' + result.weight + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Admission Date:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.admission_date + '</td>' +
+                '<td><b>Admission Time:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.time + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Address:</b></td><td colspan="3" style="border-left: 1px solid #333;">' + result.address + '</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td><b>Phone:</b></td><td colspan="3" style="border-left: 1px solid #333;">' + result.phone + '</td>' +
+            '</tr>' +
+        '</table>' +
+    '</div>'
+);
+
+
+                                
+
+
+                    $('#tabs').show();
+                                    
+                                // Add more fields as needed
+                            }
+                        } else {
+                            $('#searchResults').html("<p>No results found</p>");
+                            $('#otherTab').hide();
+                        }
+                        console.log("Query inside success function: " + query);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX error:", status, error);
+                        console.log("Response content:", xhr.responseText);
+                    }
+                });
+            }
+        </script>
+    </body>
+    </html>

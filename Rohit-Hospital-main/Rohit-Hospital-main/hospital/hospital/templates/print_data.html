@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        /* CSS styles for the navbar */
+        .navbar {
+            background-color: #343a40;
+            padding: 20px 30px;
+        }
+    
+        .navbar-brand {
+            color: white;
+            font-size: 25px;
+        }
+        
+        .navbar-nav a {
+            color: #ffffff !important;
+            font-size: 20px; /* Font size */
+            font-family: sans-serif; 
+        }
+
+        .navbar-nav a:hover {
+            color: #ffc107 !important;
+        }
+        
+        .dname {
+            float: right;
+            color: white;
+            font-size: 20px;
+            padding: 7.5px 15px;
+        }
+
+        /* CSS styles for tables */
+        .table-bordered {
+            border: 2px solid #333;
+            width: 80%; /* Adjust the width as needed */
+            margin: auto; /* Center the table */
+            margin-bottom: 20px;
+        }
+        
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .table-bordered th {
+            background-color: #f2f2f2; /* Background color for table header */
+        }
+
+        /* CSS styles for printed data */
+        .record {
+            margin-bottom: 10px;
+        }
+
+        .record h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .record ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .record ul li {
+            margin-bottom: 5px;
+        }
+        #letterhead {
+            text-align: center; /* Center-align the content */
+            margin-right: 20px; /* Add margin to the right */
+            margin-left: 20px; /* Add margin to the left */
+        }
+        
+        #letterhead img {
+            display: none; /* Initially hide the image */
+        }
+        
+        @media print {
+            #letterhead img {
+                display: block; /* Make the image visible when printing */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <a class="navbar-brand me-3" href="#">Rokade Hospital</a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/dhome">Home</a></li> 
+                </ul>
+                <ul class="navbar-nav ml-auto pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dhome">Back</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dlogin">Log Out</a>
+                    </li>
+                    <li class="dname">
+                        <b>Welcome, {{ dname }}</b>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Print button -->
+    
+    <h2 style="text-align: center;"><b>Rokade Hospital</b></h2>
+    <div id="letterhead" style="text-align: center; margin-right: 20px; margin-left: 20px;">
+        <!-- Add your letterhead content here -->
+        <img src="/static/hospital img.jpg" width="850" height="250"> <br> <!-- Adjust width and height of image as needed -->
+        <!-- Add more letterhead content as needed -->
+    </div>
+    <!-- Patient data table -->
+    <div>
+       
+        <br>
+       
+        <table class="table table-bordered">
+            <tr>
+                <td><b>Patient ID:</b></td>
+                <td>{{ patient_id }}</td>
+                <td><b>Name:</b></td>
+                <td>{{ name }}</td>
+                <td><b>Age:</b></td>
+                <td>{{ age }}</td>
+                <td><b>Gender:</b></td>
+                <td>{{ gender }}</td>
+            </tr>
+            <tr>
+                <td><b>Weight:</b></td>
+                <td>{{ weight }}</td>
+                <td><b>Admission Date:</b></td>
+                <td colspan="3">{{ admission_date }}</td>
+                <td><b>Admission Time:</b></td>
+                <td>{{ time }}</td>
+            </tr>
+            <tr>
+                <td><b>Address:</b></td>
+                <td colspan="7">{{ address }}</td>
+            </tr>
+            <tr>
+                <td><b>Phone:</b></td>
+                <td colspan="7">{{ phone }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Clinical Summary data -->
+    <div class="record">
+        <h2>Clinical Summary</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Injection</th>
+                <th>Saline</th>
+                <th>Description</th>
+            </tr>
+            {% for record in clinical_summary_data %}
+                <tr>
+                    <td>{{ record.injection }}</td>
+                    <td>{{ record.saline }}</td>
+                    <td>{{ record.description }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- General Examination data -->
+    <div class="record">
+        <h2>General Examination</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Blood Pressure</th>
+                <th>Temperature</th>
+                <th>Height</th>
+                <th>Sugar Level</th>
+            </tr>
+            {% for record in general_examination_data %}
+                <tr>
+                    <td>{{ record.Blood_Pressure }}</td>
+                    <td>{{ record.Temperature }}</td>
+                    <td>{{ record.Height }}</td>
+                    <td>{{ record.Sugar_level }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Diagnosis data -->
+    <div class="record">
+        <h2>Diagnosis</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Details</th>
+            </tr>
+            {% for record in diagnosis_data %}
+                <tr>
+                    <td>{{ record.Details }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Previous Investigation data -->
+    <div class="record">
+        <h2>Previous Investigation</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Details</th>
+            </tr>
+            {% for record in previous_investigation_data %}
+                <tr>
+                    <td>{{ record.Details }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Treatment In Hospital data -->
+    <div class="record">
+        <h2>Treatment In Hospital</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Details</th>
+            </tr>
+            {% for record in treatment_in_hospital_data %}
+                <tr>
+                    <td>{{ record.Details }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+
+    <div class="record">
+        <h2>Prescription</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Tablet</th>
+                <th>Morning</th>
+                <th>Afternoon</th>
+                <th>Evening</th>
+            </tr>
+            {% for record in prescription %}
+                <tr>
+                    <td>{{ record.tablet }}</td>
+                    <td>{{ record.morning }}</td>
+                    <td>{{ record.afternoon }}</td>
+                    <td>{{ record.evening }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- Clinical Progress data -->
+    <div class="record">
+        <h2>Clinical Progress</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Details</th>
+            </tr>
+            {% for record in clinical_progress_data %}
+                <tr>
+                    <td>{{ record.Details }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div style="text-align: center;">
+        <button onclick="window.print()" style="color: white; background-color: #007bff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Print</button>
+    </div>
+    
+    <br>
+    <br>
+</body>
+</html>

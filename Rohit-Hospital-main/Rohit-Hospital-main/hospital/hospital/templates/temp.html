@@ -1,0 +1,126 @@
+{%extends "base.html"%}
+{%block head%}
+
+
+{%endblock head%}
+
+{%block body%}
+
+
+<nav class="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand">Patient </a>
+      <form class="d-flex" role="search">
+        <!--<input class="form-control me-2" type="search" placeholder="Patient ID" aria-label="Search"> -->
+        <input class="form-control me-2" type="text" placeholder="Patient ID" id="searchInput"  aria-label="Search">
+        <button onclick="searchRecords()">Search</button>
+        
+
+
+       <!-- ( original )<button class="btn btn-outline-success" type="submit">Search</button>-->
+      </form>
+    </div>
+  </nav>
+
+  {%block content%}
+  welcome, {{rname}}!
+  {%endblock content%}
+
+
+  <h1>Your Page Content Goes Here</h1>
+
+    <!-- Button to toggle the form visibility -->
+    <div>
+    <button id="newPatientButton" onclick="toggleForm()">New patient</button>
+    </div>
+
+    <!-- The form -->
+    <div id="myForm">
+        <h2>Please Fill Details of patient</h2>
+        <form method="post" action="{%url 'rhome'%}">
+            {% csrf_token %}
+            <h3>Patient Registration</h3>
+            <label for="name">Name:</label>
+            <input type="text" name="name" required>
+            <br>
+            <label for="age">Age:</label>
+            <input type="text" name="age" required>
+            <br>
+            <label for="weight">Weight:</label>
+            <input type="text" name="weight" required>
+            <br>
+            <label for="gender">Gender:</label>
+            <select name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+            <br>
+            <label for="admission_date">Admission Date:</label>
+            <input type="date" name="admission_date" required>
+            <br>
+            <label for="time">Time:</label>
+            <input type="time" name="time" required>
+            <br>
+            <label for="phone">Phone:</label>
+            <input type="text" name="phone" required>
+            <br>
+            <label for="address">Address:</label>
+            <textarea name="address" required></textarea>
+            <br>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+    <div id="searchResults">
+      {% if results %}
+          {% for record in results %}
+              <div>
+                  <!-- Display information about each record -->
+                  <p><b>Patient ID:{{record.patient_id}}</b></p><p><b>{{ record.name }}</b></p><p>{{ record.email }}</p><p>{{ record.address }}</p>
+                  <!-- Add more fields as needed -->
+              </div>
+          {% endfor %}
+      {% else %}
+          <p>No results found</p>
+      {% endif %}
+  </div>
+    
+
+    <script>
+        // JavaScript function to toggle form visibility
+        document.addEventListener("DOMContentLoaded", function() {
+          var form = document.getElementById('myForm');
+          form.style.display = 'none'; // Hide the form initially
+  
+          function toggleForm() {
+              form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+          }
+  
+          // Attach the toggleForm function to the button click event
+          var button = document.getElementById('newPatientButton');
+          if (button) {
+              button.addEventListener('click', toggleForm);
+          }
+      });
+      function searchRecords() {
+        console.log("Search function called");
+        var query = $('#searchInput').val();
+        console.log("Query: " + query);
+    
+        // Implement AJAX call to Django view
+        $.ajax({
+            type: 'GET',
+            url: '/rhome/?query=' + query,
+            success: function (data) {
+                $('#searchResults').html(data);
+                console.log("Query inside success function: " + query);  // Log the query variable
+            }
+        });
+    }
+    
+    </script>
+
+
+
+
+{%endblock body%}

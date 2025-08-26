@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <style>
+            .tablet-table {
+                border: 1px solid #ccc;
+                border-collapse: collapse;
+            }
+            
+            .tablet-table th, .tablet-table td {
+                border: 1px solid #ccc;
+                padding: 8px;
+            }
+            
+            .tablet-cell {
+                border: 1px solid #ccc;
+                padding: 8px;
+            }
+            
+            .navbar {
+                background-color: #343a40;
+                padding: 20px 30px;
+            }
+        
+            .navbar-brand{
+                color:white;
+                font-size: 25px;
+            }
+            .navbar-nav a {
+                color: #ffffff !important;
+                font-size: 20px; /* Font size */
+                font-family: sans-serif; 
+            }
+    
+            .navbar-nav a:hover {
+                color: #ffc107 !important;
+            }
+            .dname{
+                float:right;
+                color:white;
+                font-size: 20px;
+                padding: 7.5px 15px;
+
+            }
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #ADD8E6;; /* Solid background color */
+                font-family: Arial, sans-serif;
+            }
+    
+            .container {
+                padding: 20px;
+                margin: auto;
+                border: 2px solid #000;
+                max-width: 1400px;
+                border-radius: 6px;
+            }
+
+            table {
+                width: 100%;
+                background-color: rgba(255, 255, 255, 0.7); /* Transparent white color */
+                
+                
+            }
+    
+            th, td {
+                padding: 10px;
+            
+            }
+    
+            th {
+                background-color: #f2f2f2; /* Light gray background for table headers */
+            }
+    
+            tr:nth-child(even) {
+                background-color: #f2f2f2; /* Light gray background for even rows */
+            }
+                
+            @media print {
+                /* Hide the search form when printing */
+                #searchForm {
+                    display: none;
+                }
+            }
+            .hide-border {
+                border: none;
+            }
+            #letterhead {
+                text-align: center; /* Center-align the content */
+                margin-right: 20px; /* Add margin to the right */
+                margin-left: 20px; /* Add margin to the left */
+            }
+            
+            #letterhead img {
+                display: none; /* Initially hide the image */
+            }
+            
+            @media print {
+                #letterhead img {
+                    display: block; /* Make the image visible when printing */
+                }
+            }
+            
+
+.container {
+    margin-top: 50px;
+}
+#searchResults {
+    margin-top: 20px;
+}
+.tablet-square {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+            
+        </style>    
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <a class="navbar-brand me-3" href="#">Rokade Hospital</a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/dhome">Home</a></li> 
+                    </ul>
+                    <ul class="navbar-nav ml-auto pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dhome">Back</a>
+                        </li>
+                    <ul class="navbar-nav ml-auto pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dlogin">Log Out</a>
+                        </li>
+                        
+                        <li class="dname">
+                            
+                            <b>Welcome, Dr.{{dname}}</b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br>
+<div >
+    <div class="container">
+        <form id="prescriptionForm">
+            {% csrf_token %}
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <input type="text" id="tabletSearch" class="form-control" placeholder="Search tablets...">
+                        <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                    </div>
+                    <div id="searchResults">
+                    <select id="tabletSelect" class="form-select mb-3">
+                        <option value="">Select a tablet...</option>
+                        {%for tab in results_html%}
+                        <option value="{{tab.name}}">{{tab.name}}</option>
+                        {%endfor%}
+
+                    </select>
+                    <div id="timing">
+                        <input type="text" id="morning" class="form-control mb-3" placeholder="Morning">
+                        <input type="text" id="afternoon" class="form-control mb-3" placeholder="Afternoon">
+                        <input type="text" id="evening" class="form-control mb-3" placeholder="Evening">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Add Tablet</button>
+                
+                </div>
+            </div>
+            </div>
+        </form>
+        
+    </div>
+    <!-- Prescription Squares -->
+    <div class="container">
+        <div id="prescriptionSquares"></div>
+        <button id="saveButton" class="btn btn-primary mt-3">Save Prescription</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Live search tablets
+$('#searchButton').click(function() {
+    var query = $('#tabletSearch').val();
+    $.ajax({
+        type: 'GET',
+        url: '/search_tablets/',
+        data: { query: query },
+        success: function(data) {
+            // Clear previous options
+            $('#tabletSelect').empty();
+            if (data.results_tab && data.results_tab.length > 0) {
+                // Iterate through the data and append it to the tabletSelect dropdown
+                $.each(data.results_tab, function(index, result) {
+                    $('#tabletSelect').append(
+                        '<option value="' + result.name + '">' + result.name + '</option>'
+                    );
+                });
+                // Show the tabletSelect dropdown if it was hidden
+                $('#tabletSelect').show();
+            } else {
+                // If no results, hide the tabletSelect dropdown
+                $('#tabletSelect').hide();
+            }
+        }
+    });
+});
+
+
+    // Function to update the prescription squares
+    $('#prescriptionForm').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        var tabletName = $('#tabletSelect').val(); // Get the selected tablet name
+        var morning = $('#morning').val();
+        var afternoon = $('#afternoon').val();
+        var evening = $('#evening').val();
+        if (tabletName && morning && afternoon && evening) {
+            // Update the prescription squares with tablet name and timing
+            updatePrescriptionSquares(tabletName, morning, afternoon, evening);
+            // Clear the input fields
+            $('#tabletSearch').val('');
+            $('#morning').val('');
+            $('#afternoon').val('');
+            $('#evening').val('');
+        } else {
+            alert("Please select a tablet and enter morning, afternoon, and evening timings.");
+        }
+    });
+    
+    function updatePrescriptionSquares(tabletName, morning, afternoon, evening) {
+        var html = '<div class="tablet-square">' +
+            '<table class="tablet-table">' +
+            '<tr>' +
+            '<th>Tablet</th>' +
+            '<th>Morning</th>' +
+            '<th>Afternoon</th>' +
+            '<th>Evening</th>' +
+            '</tr>' +
+            '<tr>' +
+            '<td class="tablet-cell"><h5>' + tabletName + '</h5></td>' +
+            '<td class="tablet-cell"><h4>' + morning + '</h4></td>' +
+            '<td class="tablet-cell"><h3>' + afternoon + '</h3></td>' +
+            '<td class="tablet-cell"><h2>' + evening + '</h2></td>' +
+            '</tr>' +
+            '</table>' + '<br>'+
+            '<button type="button" class="btn btn-danger remove-tablet">Remove</button>' +
+            '</div>';
+        
+        
+        
+        $('#prescriptionSquares').append(html);
+    }
+    // Remove tablet square
+    $(document).on('click', '.remove-tablet', function() {
+        $(this).parent().remove();
+    });
+
+    // Save prescription
+    $('#saveButton').click(function() {
+        var prescriptionData = [];
+        $('.tablet-square').each(function() {
+            var tabletName = $(this).find('h5').text();
+            var morning = $(this).find('h4').text();
+            var afternoon = $(this).find('h3').text();
+            var evening = $(this).find('h2').text();
+            prescriptionData.push({ tabletName: tabletName, morning: morning, afternoon: afternoon, evening: evening });
+        });
+    
+        // Send prescriptionData to the server
+        $.ajax({
+            type: 'POST',
+            url: '/save_prescription/',
+            headers: { "X-CSRFToken": csrftoken },
+            data: {
+                prescription_data: JSON.stringify(prescriptionData) // Serialize prescriptionData to JSON
+            },
+            success: function(response) {
+                console.log(response); 
+                if (response.success) {
+                    // Redirect to dhome page
+                    window.location.href = '/dhome'; // Replace '/dhome' with your actual URL
+                }
+                // Handle success response if needed
+            },
+
+        });
+    });
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if the cookie name matches the requested name
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+    </script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <style>
+            #searchBarContainer {
+                display: flex;
+                margin-left:600px;
+                margin-top: 90px; 
+                margin-bottom: 20px; /* Adjust margin as needed */
+            }
+            .navbar {
+                background-color: #343a40;
+                padding: 20px 30px;
+            }
+            input, select {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 16px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            .navbar-brand{
+                color:white;
+                font-size: 25px;
+            }
+            .navbar-nav a {
+                color: #ffffff !important;
+                font-size: 20px; /* Font size */
+                font-family: sans-serif; 
+            }
+    
+            .navbar-nav a:hover {
+                color: #ffc107 !important;
+            }
+            .dname{
+                float:right;
+                color:white;
+                font-size: 20px;
+                padding: 7.5px 15px;
+
+            }
+            
+            #newPatientButton {
+                    background-color: #007bff; /* Button color */
+                    color: #fff; /* Text color */
+                    padding: 5px 10px; /* Padding around the text */
+                    font-size: 16px; /* Font size */
+                    font-family: sans-serif; 
+                    border: none; /* Remove border */
+                    cursor: pointer; /* Add pointer cursor on hover */
+                    border-radius: 10px; /* Optional: Add border-radius for rounded corners */
+                }
+            
+            #newPatientButton:hover {
+                    background-color: #0056b3; /* Change color on hover */
+                }
+            #form {
+                    background-color: #fff;
+                    max-width: 400px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border-radius: 15px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+                h2 {
+                    text-align: center;
+                    margin-bottom: 10px;
+                }
+                input[type="radio"] {
+                    margin-right: 5px;
+                }
+                label {
+                    display: block;
+                    margin-bottom: 8px;
+                }
+                .register_body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+                #register_submit {
+                    background-color: #4caf50;
+                    color: #fff;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                #register_cancel {
+                    background-color: #4caf50;
+                    color: #fff;
+                    padding: 10px 25px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                #line{
+                    padding:10px 13px
+                }
+                #searchInput {
+                    width: 300px;
+                    height:50px;
+                    padding: 30px 30px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    margin-right: 5px;
+                    margin-left: 20px;
+                    background-color: #000; /* Black background color */
+                    color: #fff;
+                }
+                #searchButton {
+                    background-color: #007bff;
+                    color: #fff;
+                    padding: 15px 16px;
+                    margin-right: 5px;
+                    margin-left: 20px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                
+                #searchButton:hover {
+                    background-color: #0056b3;
+                }
+
+                body {
+                    background-color: #3CB37
+                }
+                #searchInput::placeholder {
+                    color: #ccc; /* Light gray placeholder text color */
+                }
+                #letterhead img {
+                    float: left; /* Float the image to the left */
+                    margin-right: 20px; /* Add some margin to the right of the image */
+                   
+                    display: none; /* Initially hide the image */
+                }
+            
+                /* Media query for printing */
+                @media print {
+                    #letterhead img {
+                        display: block; /* Make the image visible when printing */
+                    }
+                }
+        </style>    
+    </head>
+    <body>
+
+        <div id="letterhead">
+          
+            <img src="/static/hospital img.jpg"  width="850" height="150">   
+        </div>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <a class="navbar-brand me-3" href="#">Rokade Hospital</a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/dhome">Home</a></li> 
+                    </ul>
+                    <ul class="navbar-nav ml-auto pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dlogin">Log Out</a>
+                        </li>
+                        <li class="dname">
+                            
+                            <b>Welcome, Dr.{{dname}}</b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br>
+        <div id="searchBarContainer">
+
+            <input class="form-control me-2" type="text" placeholder="Search Patient" id="searchInput" name="query" aria-label="Search">
+            <button class="btn btn-outline-success" id="searchButton" onclick="searchRecords()">Search</button>
+            
+          </div>
+        
+
+{%block body%}
+
+{%endblock body%}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+<br><br>
+        <div class="d-flex justify-content-center">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="newPatientButton" >New Patient</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a id="newPatientButton" href="/all_patients/" class="btn btn-primary">All Patients</a>
+        </div>
+<br>
+        <!-- The form -->
+        <div id="myForm">
+            
+            <form method="post" action="{% url 'dhome' %}" id="form">
+                {% csrf_token %}
+                <h2>Please Fill Details of Patient</h2>
+               <div id="line">__________________________________________________</div>
+              
+                <label for="name">Name:</label>
+                <input type="text" name="name" required>
+                <br>
+                <label for="age">Age:</label>
+                <input type="text" name="age" required>
+                <br>
+                <label for="weight">Weight:</label>
+                <input type="text" name="weight" required>
+                <br>
+                <label for="gender" style="display: flex; align-items: center;">Gender:</label>
+                <select name="gender" required>
+                    <option value="" disabledselected> Select Gender </option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <br>
+                <label for="admission_date">Admission Date:</label>
+                <input type="date" name="admission_date" required>
+                <br>
+                <label for="time">Time:</label>
+                <input type="time" name="time"  required>
+                <br>
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone"  required>
+                <br>
+                <label for="Address">Address:</label>
+        <input type="text" id="address" name="address" required>
+                <br>
+                
+                <input id="register_submit" type="submit" name="Register" value="Register"> 
+                <input id="register_cancel" type="button" value="Cancel" onclick="cancelRegistration()">
+            </form>
+        </div>
+        <br>
+        <!-- search result-->
+        <div id="tabs" style="display: none;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="diagnosisTab" data-toggle="tab" href="#diagnosisContent">Patient Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otherTab" data-toggle="tab" href="/clinical_summary">Clinical Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otherTab" data-toggle="tab" href="/general_examination">General Examination</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otherTab" data-toggle="tab" href="/diagnosis">Diagnosis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otherTab" data-toggle="tab" href="/previous_investigation">Previous Investigation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otherTab" data-toggle="tab" href="treatment_in_hospital">Treatment(In Hospital)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otherTab" data-toggle="tab" href="/prescription">Treatment(On Discharge)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otherTab" data-toggle="tab" href="clinical_progress">Clinical Progress</a>
+                </li>
+               
+                
+
+            </ul>
+        
+            <!-- Tab content -->
+            <div class="tab-content">
+                <!-- Diagnosis Tab Content -->
+                <div class="tab-pane fade show active" id="diagnosisContent">
+                    <!-- Content related to Diagnosis -->
+                </div>
+        
+                <!-- Other Page Tab Content -->
+                <div class="tab-pane fade" id="otherPageContent">
+                    <!-- Content related to Other Page -->
+                    <h2>This is the content of the other page.</h2>
+                </div>
+                <!-- Add more tab content divs as needed -->
+            </div>
+        </div>
+        <div id="searchResults">
+            {% if results %}
+            {% for record in results %}
+            <div>
+                <!-- Display information about each record -->
+                <p><b>Patient ID:{{record.patient_id}}</b></p><p><b>{{ record.name }}</b></p><p>{{ record.email }}</p><p>{{ record.address }}</p>
+                <!-- Add more fields as needed -->
+            </div>
+            <div>
+                <!-- Edit, Print, and Exit buttons -->
+                <button class="btn btn-primary" onclick="editRecord()">Edit</button>
+                <button onclick="printPatientData()">Print</button>
+                <button class="btn btn-danger" onclick="exitSearch()">Exit</button>
+            </div>
+            {% endfor %}
+            
+           
+            
+            {% endif %}
+        </div>
+
+      
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var form = document.getElementById('myForm');
+                form.style.display = 'none';
+
+                function toggleForm() {
+                    form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+                }
+
+                var button = document.getElementById('newPatientButton');
+                if (button) {
+                    button.addEventListener('click', toggleForm);
+                }
+            });
+
+            function cancelRegistration() {
+            
+                window.location.href = "/dhome";
+            }
+            function searchRecords() {
+                console.log("Search function called");
+                var query = encodeURIComponent($('#searchInput').val());
+                console.log("Query: " + query);
+            
+                // Implement AJAX call to Django view
+                $.ajax({
+                    type: 'GET',
+                    url: '/dhome_success/?query=' + query,
+                    success: function (data) {
+                        console.log("Data received:", data);
+            
+                        // Clear previous results
+                        $('#searchResults').html("");
+            
+                        if (data.results_list && data.results_list.length > 0) {
+                            // Iterate through the data and append it to the searchResults div
+                            for (var i = 0; i < data.results_list.length; i++) {
+                                var result = data.results_list[i];
+                                $('#searchResults').append('<br>' +
+    '<div style="outline: 1px solid #333; padding: 10px;">' +
+        '<table style="border-collapse: collapse; width: 100%; border: 1px solid #333;">' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Patient ID:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.patient_id + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Name:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.name + '</td>' +
+                '<td><b>Age:</b></td><td style="border-left: 1px solid #333;">' + result.age + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Gender:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.gender + '</td>' +
+                '<td><b>Weight:</b></td><td style="border-left: 1px solid #333;">' + result.weight + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Admission Date:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.admission_date + '</td>' +
+                '<td><b>Admission Time:</b></td><td style="border-left: 1px solid #333; border-right: 1px solid #333;">' + result.time + '</td>' +
+            '</tr>' +
+            '<tr style="border-bottom: 1px solid #333;">' +
+                '<td><b>Address:</b></td><td colspan="3" style="border-left: 1px solid #333;">' + result.address + '</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td><b>Phone:</b></td><td colspan="3" style="border-left: 1px solid #333;">' + result.phone + '</td>' +
+            '</tr>' +
+        '</table>' + '<br' +
+        '   <!-- Edit, Print, and Exit buttons for each result -->' +
+        '    <!--<button class="btn btn-primary" onclick="editRecord()">Edit</button>-->'  +
+        '   <a id="newPatientButton" href="/print_data/" class="btn btn-primary">Preview</a>' +
+        '   <!-- <button class="btn btn-danger" onclick="exitSearch()">Exit</button>-->'  +
+    '</div>'
+);
+
+                    $('#tabs').show();
+                                // Add more fields as needed
+                            }
+                        } else {
+                            $('#searchResults').html("<p>No results found</p>");
+                        }
+                        console.log("Query inside success function: " + query);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX error:", status, error);
+                        console.log("Response content:", xhr.responseText);
+                    }
+                });
+            }
+
+            function editRecord() {
+                // Add your logic for editing a record
+                console.log('Edit button clicked');
+            }
+        
+            
+        
+            function exitSearch() {
+                // Add your logic for exiting the search results view
+                console.log('Exit button clicked');
+            }
+            function printRecord() {
+                // Hide unnecessary elements before printing
+                document.querySelector('.navbar').style.display = 'none';
+                document.getElementById('searchBarContainer').style.display = 'none';
+                document.getElementById('tabs').style.display = 'none';
+                document.querySelectorAll('.btn').forEach(function(btn) {
+                    btn.style.display = 'none';
+                });
+                // Hide the "New Patient" button specifically
+                document.getElementById('newPatientButton').style.display = 'none';
+            
+                // Print the patient data
+                window.print();
+            
+                // Restore the visibility of hidden elements after printing
+                document.querySelector('.navbar').style.display = 'block';
+                document.getElementById('searchBarContainer').style.display = 'flex'; // Assuming this is a flex container
+                document.getElementById('tabs').style.display = 'block';
+                document.querySelectorAll('.btn').forEach(function(btn) {
+                    btn.style.display = 'block';
+                });
+                // Show the "New Patient" button after printing
+                document.getElementById('newPatientButton').style.display = 'block';
+            }
+
+            function redirectToPrintPage() {
+                window.location.href = "/print_data/";
+            }
+        
+            // Attach click event listener to the print button
+            document.getElementById("printButton").addEventListener("click", redirectToPrintPage);
+            
+        </script>
+    </body>
+    </html>

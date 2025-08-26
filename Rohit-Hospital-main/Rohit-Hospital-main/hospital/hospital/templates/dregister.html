@@ -1,0 +1,192 @@
+{%extends "base.html"%}
+{% block paragraph %}
+{% endblock paragraph %}
+{%block head%}
+
+
+<style>
+    dregister_body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    #dregister_form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    #dregister_submit {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    form {
+        background-color: #fff;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #dregister_cancel {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    .error-message {
+        color: red;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+</style>
+
+{%endblock head%}
+{%block body%}
+
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 1vh;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="/dlogin" class="ms-3">Click Here To Login</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<body id="dregister_body">
+{%block content%}
+<br>
+
+{%endblock content%}
+
+
+
+    <form   id="form" action="{%url 'dregister'%}" method="post">
+        {%csrf_token %}
+        <h2>Doctor Registraion</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+
+        <label for="designation">Designation:</label>
+        <select id="designation" name="designation" required>
+            <option value="" disabledselected> Select Designation </option>
+            <option value="resident">Resident</option>
+            <option value="specialist">Specialist</option>
+            <option value="consultant">Consultant</option>
+        </select>
+
+       
+
+        <label for="department">Department:</label>
+        <select id="department" name="department" required>
+            <option value="" disabledselected> Select Departmnet </option>
+            <option value="OPD">OPD</option>
+            <option value="ICU">ICU</option>
+            <option value="General Ward">General Ward</option>
+        </select>
+
+        <label for="mln">Medical License Number:</label>
+        <input type="text" id="mln" name="mln" required>
+
+       <label style="display: flex; align-items: center;">Gender:
+    <label for="male" style="margin-left: 5px;">Male</label>
+    <input type="radio" id="male" name="gender" value="male">
+    <label for="female" style="margin-left: 10px;">Female</label>
+    <input type="radio" id="female" name="gender" value="female">
+    <label for="other" style="margin-left: 10px;">Other</label>
+    <input type="radio" id="other" name="gender" value="other">
+</label>
+
+
+        <label for="phone">Phone:</label> 
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+      
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+
+        <label for="Address">Address:</label>
+        <input type="text" id="address" name="address" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" oninput="validatepass()" required>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" oninput="validatepass()" required>
+        <br>    
+        <p id="errorMessage" class="error-message"></p>
+
+        <input id="dregister_submit" type="submit" name="Register" value="Register"> 
+        <input id="dregister_cancel" type="button" value="Cancel" onclick="cancelRegistration()">
+        
+    </form>
+    <!--<form id="dregister_form" action="/dlogin" method="post">
+        {%csrf_token%}
+        
+    </form> -->    
+
+    <script>
+        function validatepass() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var errorMessage = document.getElementById("errorMessage");
+    
+            if (password !== confirmPassword) {
+                errorMessage.innerHTML = "Passwords do not match!";
+              
+            } else {
+                errorMessage.innerHTML = "";
+                
+            }
+        }
+
+        function cancelRegistration() {
+            
+            window.location.href = "/dlogin";
+        }
+    </script>
+
+</body>
+{%endblock body%}
